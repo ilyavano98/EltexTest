@@ -1,0 +1,105 @@
+<html>
+<head>
+<meta http-equiv="Content-Language" content="ru">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<title>Тестовое задание</title>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<form method=post target=_self  name=frmMain >
+<div id=start>
+  <input type="text" name="paramN" placeholder="Введите число N:" value="">
+  <input type="button" name="btnCreateRand" value="Сгенерировать">
+  <p id="resultStart"></p>
+</div>
+<div id="step2"></div>
+<div id="step3"></div>
+<div id="finish"></div>
+<p id="msg"></p>
+<script>
+  var masSymbol = "ABDEFGHIJKLMNOQRTUVWYZabcdefghijklmnopqrstuvwxyz1234567890+-_$~"; //Убраны 
+  var massNumeric = "1234567890";
+  var povtor1= 0, povtor2= 0;
+  function onCreateRandStr(ev)
+  {
+    var N = frmMain.paramN.value, count = 0, randomLetter = "";
+    while(count < N)
+    {
+      var randomIndex = Math.floor(Math.random() * masSymbol.length);
+      randomLetter += masSymbol[randomIndex]; 
+      count++;
+    }
+    document.getElementById("resultStart").innerHTML = randomLetter;
+    frmMain.btnCreateRand.style.display = "none";
+    document.getElementById("step2").innerHTML = "<input type=\"text\" name=\"paramSymbol\" placeholder=\"Введите символ\" value=\"\"><input type=\"button\" name=\"btnCreateStrModif1\" value=\"Перегенерировать\" onclick=\"onCreateStrModif1()\"><p id=\"resultStp2\"></p>";
+  }
+
+  function onCreateStrModif1()
+  {
+    var strRand = document.getElementById("resultStart").textContent, symbol = frmMain.paramSymbol.value,
+     strStep2 = "";
+    if(symbol.length == 1)
+    {
+      for(var i = 0; i < strRand.length; i++)
+      {
+        if(!massNumeric.includes(strRand[i]))
+        {
+          strStep2 += symbol;
+          povtor1++;
+        }
+        else
+        {
+          strStep2 += strRand[i];
+        }
+      }
+      document.getElementById("resultStp2").innerHTML = strStep2;
+      frmMain.btnCreateStrModif1.style.display = "none";
+      document.getElementById("step3").innerHTML = "<input type=\"text\" name=\"paramSymbol1\" placeholder=\"Введите символ\" value=\"\"><input type=\"button\" name=\"btnCreateStrModif2\" value=\"Перегенерировать\"onclick=\"onCreateStrModif2()\"><p id=\"resultStp3\"></p>";
+    }
+    else
+    {
+      document.getElementById("msg").innerHTML = "Ошибка символа. Введено количество символов больше 1";
+    }
+  }
+
+  function onCreateStrModif2()
+  {
+    var strStp2 = document.getElementById("resultStp2").textContent, symbol = frmMain.paramSymbol1.value,
+     strStep3 = "";
+    if(symbol.length == 1)
+    {
+      for(var i = 0; i < strStp2.length; i++)
+      {
+        if(massNumeric.includes(strStp2[i]))
+        {
+          strStep3 += symbol;
+          povtor1++;
+        }
+        else
+        {
+          strStep3 += strStp2[i];
+        }
+      }
+      document.getElementById("resultStp3").innerHTML = strStep3;
+      frmMain.btnCreateStrModif1.style.display = "none";
+      document.getElementById("finish").innerHTML = "<input type=\"submit\" value=\"Повтор программы\">";
+    }
+    else
+    {
+      document.getElementById("msg").innerHTML = "Ошибка символа. Введено количество символов больше 1";
+    }
+  }
+
+  window.onload= function()
+  {
+    frmMain.btnCreateRand.onclick = onCreateRandStr;
+  }
+</script>
+</form>
+<hr>
+</body>
+</html>
